@@ -6,7 +6,7 @@ function gap(){
 
 # Function to build, stop, remove, and run a Docker container
 #  docker build image, 
-dboard() {
+function dboard() {
     local name=$1          # Mandatory: Image/Container Name
     local primary_port=$2  # Mandatory: Primary Port
     local secondary_port=$3 # Optional: Secondary Port
@@ -41,3 +41,45 @@ dboard() {
 # Example usage:
 # docker_dashboard my_dashboard 6003
 # docker_dashboard my_dashboard 6003 7000
+
+
+#!/bin/bash
+
+# Function to stop/remove containers and remove image
+function cleandocker() {
+    name=$1
+
+    # Check if container name is provided
+    if [ -z "$name" ]; then
+        echo "Error: No container name provided."
+        exit 1
+    fi
+
+    # Check if image name is provided
+    if [ -z "$name" ]; then
+        echo "Error: No image name provided."
+        exit 1
+    fi
+
+    # Stop and remove container
+    echo "Stopping container: $name"
+    docker stop $name
+
+    echo "Removing container: $name"
+    docker rm $name
+
+    # Remove image
+    echo "Removing image: $name"
+    docker rmi $name
+
+    echo "Cleanup complete: Container '$name' and Image '$name' removed."
+}
+
+# Check if enough arguments were passed
+# if [ $# -lt 2 ]; then
+#     echo "Usage: $0 <name>  define the container name"
+#     exit 1
+# fi
+
+# Call cleanup function with parameters
+
